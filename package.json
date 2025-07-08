@@ -13,7 +13,8 @@
     "test:dev": "vitest",
     "coverage": "vitest run --coverage",
     "knip": "knip",
-    "lint": "biome format --write && biome check --write"
+    "lint": "biome format --write && biome check --write",
+    "mockhost": "node ./mock-host-server.js"
   },
   "keywords": [],
   "author": "",

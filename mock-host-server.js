@@ -83,9 +83,9 @@ app.use(
   },
 );
 
-app.get("/seed/:fileName", (req, res) => {
+app.get("/seed/*fileName", (req, res) => {
   const { fileName } = req.params;
-  const filePath = join(root, fileName);
+  const filePath = join(root, ...fileName);
   const throttle = parseInt(req.query.throttle, 10);
 
   if (throttle && throttle > 0) {
