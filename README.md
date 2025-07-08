@@ -9,6 +9,14 @@
 - **Real-time Monitoring:** Monitor download progress and status using Server-Sent Events (SSE).
 - **Extensible Architecture:** Designed to easily integrate new download methods in the future.
 
+## Why I Developed This Project
+
+Hey there! So, you might be wondering why I poured time into building `downloads-server`. Honestly, it's all about setting myself up for some cool future projects. I've always wanted a super reliable, centralized way to handle all my file downloads, whether it's a direct link, a torrent, or a magnet URI. I envision this project as the backbone for a bunch of ideas I have brewing.
+
+Think of it as my personal download powerhouse. I'm planning to integrate this into various personal automation scripts and applications. For instance, I want to build a custom media management system where this server handles all the heavy lifting of fetching content. Or maybe a personal archiving tool that automatically pulls down articles, videos, or datasets I'm interested in, and organizes them neatly.
+
+Ultimately, `downloads-server` is my answer to having complete control over my digital assets, making sure they land exactly where I want them, efficiently and reliably. It's a foundational piece for a more automated and organized digital life, and I'm excited to see what I'll build on top of it!
+
 ## Documentation
 
 - [Project Refinement](docs/project-refinement.md)
