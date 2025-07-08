@@ -163,6 +163,27 @@ describe("TorrentDownloadProvider", () => {
     );
   });
 
+  it("should add magnet URI to webtorrent client directly", async () => {
+    const magnetUri =
+      "magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=test.torrent";
+    const destinationPath = "/downloads";
+
+    await provider.start(
+      magnetUri,
+      destinationPath,
+      onStart,
+      onProgress,
+      onComplete,
+      onError,
+    );
+
+    expect(webTorrentMock.client.add).toHaveBeenCalledWith(magnetUri, {
+      path: destinationPath,
+    });
+    expect(axios.get).not.toHaveBeenCalled();
+    expect(fs.writeFileSync).not.toHaveBeenCalled();
+  });
+
   it("should call onComplete and remove the torrent when torrent finishes downloading", async () => {
     const torrentUrl = "http://example.com/test.torrent";
     const destinationPath = "/downloads";

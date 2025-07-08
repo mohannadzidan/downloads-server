@@ -25,10 +25,8 @@ import type {
 import type { DownloadStateStore } from "./download-state-store.js";
 import { TorrentDownloadProvider } from "./torrent-download-provider.js";
 
-export type DownloadMethod = "direct" | "torrent" | "magnet";
-
 export interface StartDownloadOptions {
-  method: DownloadMethod;
+  method: string;
   url: string;
   tags: string[];
 }
@@ -36,7 +34,7 @@ export interface StartDownloadOptions {
 class DownloadManager {
   private volumeManager: VolumeManager;
   private sseManager: SseManager;
-  private downloadProviders: Map<DownloadMethod, DownloadProvider>;
+  private downloadProviders: Map<string, DownloadProvider>;
   private activeDownloads: Map<
     string,
     { process: DownloadProcess; cancel: CancellationHandle }
@@ -59,12 +57,24 @@ class DownloadManager {
     this.downloadProviders.set("direct", directProvider);
     const torrentProvider = new TorrentDownloadProvider();
     this.downloadProviders.set("torrent", torrentProvider);
-    // this.downloadProviders.set("magnet", magnetProvider); // Magnet provider will be added later if needed
+    this.downloadProviders.set("magnet", torrentProvider);
     logger.info("download manager initialized!");
   }
 
   public async startDownload(options: StartDownloadOptions): Promise<string> {
     const { method, tags } = options;
+    for (const activeDownload of this.activeDownloads.values()) {
+      if (
+        activeDownload.process.url === options.url &&
+        this.downloadProviders.get(activeDownload.process.method) ===
+          this.downloadProviders.get(options.method)
+      ) {
+        logger.info(
+          `Download ${options.url} with method ${method} already in progress.`,
+        );
+        return activeDownload.process.downloadId;
+      }
+    }
     const downloadId = uuidv4();
     logger.info(`Initiating download ${downloadId} with method ${method}`);
 

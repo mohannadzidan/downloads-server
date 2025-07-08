@@ -59,13 +59,19 @@ export class TorrentDownloadProvider implements DownloadProvider {
   ): Promise<CancellationHandle> {
     let torrent: WebTorrent.Torrent | null = null;
     try {
-      const torrentFilePath = await this.downloadTorrentFile(url);
+      let torrentIdentifier: string;
 
-      torrent = this.client.add(torrentFilePath, { path: destinationPath });
+      if (url.startsWith("magnet:")) {
+        torrentIdentifier = url;
+        logger.info(`Starting torrent download from magnet URI: ${url}`);
+      } else {
+        const torrentFilePath = await this.downloadTorrentFile(url);
+        torrentIdentifier = torrentFilePath;
+      }
+
+      torrent = this.client.add(torrentIdentifier, { path: destinationPath });
       torrent.on("ready", () => {
-        logger.info(`Metadata for torrent ${torrent?.name} loaded.`, {
-          torrent,
-        });
+        logger.info(`Metadata for torrent ${torrent?.name} loaded.`);
         onStart();
       });
 
