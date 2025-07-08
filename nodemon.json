@@ -1,0 +1,9 @@
+{
+  "watch": ["src", "config.json"],
+  "ext": "ts,json,env",
+  "ignore": ["src/**/*.test.ts", "src/**/*.spec.ts"],
+  "exec": "tsc --noEmit && node  --no-warnings=ExperimentalWarning --loader ts-node/esm src/index.ts",
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

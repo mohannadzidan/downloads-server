@@ -1,0 +1,278 @@
+openapi: 3.0.0
+info:
+  title: Downloads Server API
+  description: API for managing downloads
+  version: 1.0.0
+servers:
+  - url: http://localhost:6060/api/v1/
+paths:
+  /downloads/start:
+    post:
+      summary: Start a new download
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DownloadRequest'
+      responses:
+        '202':
+          description: Download started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      downloadId:
+                        type: string
+                        format: uuid
+        '400':
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /downloads/status:
+    get:
+      summary: Get status of all downloads
+      responses:
+        '200':
+          description: A list of all download statuses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DownloadState'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /downloads/{downloadId}/status:
+    get:
+      summary: Get status of a specific download
+      parameters:
+        - name: downloadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: The status of the download
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    $ref: '#/components/schemas/DownloadState'
+        '404':
+          description: Download not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /downloads/{downloadId}/events:
+    get:
+      summary: Stream download events using SSE
+      parameters:
+        - name: downloadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: An SSE stream of download events
+          content:
+            text/event-stream:
+              schema:
+                type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /downloads/{downloadId}/cancel:
+    post:
+      summary: Cancel a download
+      parameters:
+        - name: downloadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Download cancelled
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /downloads/{downloadId}/files:
+    get:
+      summary: List files in download directory
+      parameters:
+        - name: downloadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: A list of files in the download directory
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      directory:
+                        type: string
+                      files:
+                        type: array
+                        items:
+                          type: string
+        '404':
+          description: Download not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /downloads/{downloadId}/files/{path}:
+    get:
+      summary: Read a file from the download directory
+      parameters:
+        - name: downloadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The file content
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    DownloadRequest:
+      type: object
+      properties:
+        method:
+          type: string
+          enum: [direct, torrent, magnet]
+        tags:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          format: uri
+      required:
+        - method
+        - tags
+    DownloadState:
+      type: object
+      properties:
+        downloadId:
+          type: string
+          format: uuid
+        method:
+          type: string
+        status:
+          type: string
+          enum: [pending, downloading, completed, failed, paused, cancelled]
+        filePath:
+          type: string
+        url:
+          type: string
+          format: uri
+        createdAt:
+          type: number
+        errorMessage:
+          type: string
+        downloadedBytes:
+          type: number
+        totalBytes:
+          type: number
+        progress:
+          type: number
+        speed:
+          type: number
+        eta:
+          type: number
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string

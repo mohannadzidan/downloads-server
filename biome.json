@@ -1,0 +1,148 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "useImportExtensions": "error",
+        "noUnusedVariables": "error",
+        "useIsNan": "error",
+        "noConstructorReturn": "error",
+        "noEmptyPattern": "error",
+        "noGlobalObjectCalls": "error",
+        "noInnerDeclarations": "error",
+        "noInvalidBuiltinInstantiation": "error",
+        "noInvalidConstructorSuper": "error",
+        "noNonoctalDecimalEscape": "error",
+        "noPrecisionLoss": "error",
+        "noSelfAssign": "error",
+        "noSetterReturn": "error",
+        "noUndeclaredVariables": "error",
+        "noUnreachable": "error",
+        "noUnreachableSuper": "error",
+        "noUnsafeFinally": "error",
+        "noUnsafeOptionalChaining": "error",
+        "noUnusedLabels": "error"
+      },
+      "complexity": {
+        "noArguments": "error",
+        "noBannedTypes": "error",
+        "noExtraBooleanCast": "error",
+        "noUselessCatch": "error",
+        "noUselessConstructor": "error",
+        "noUselessContinue": "error",
+        "noUselessFragments": "error",
+        "noUselessRename": "error",
+        "noUselessTypeConstraint": "error",
+        "noVoid": "error",
+        "useArrowFunction": "error",
+        "useFlatMap": "error",
+        "useLiteralKeys": "error",
+        "useOptionalChain": "error",
+        "useRegexLiterals": "error",
+        "useSimplifiedLogicExpression": "error",
+        "useWhile": "error"
+      },
+      "performance": {
+        "noDelete": "error"
+      },
+      "nursery": {
+        "noAwaitInLoop": "error",
+        "noConstantBinaryExpression": "error",
+        "useParseIntRadix": "error"
+      },
+      "style": {
+        "noInferrableTypes": "error",
+        "noNamespace": "error",
+        "noNonNullAssertion": "off",
+        "noParameterAssign": "error",
+        "noRestrictedGlobals": "error",
+        "useArrayLiterals": "error",
+        "useAsConstAssertion": "error",
+        "useBlockStatements": "error",
+        "useCollapsedElseIf": "error",
+        "useConst": "error",
+        "useConsistentArrayType": "error",
+        "useDefaultParameterLast": "error",
+        "useExponentiationOperator": "error",
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "strictCase": true,
+            "filenameCases": ["kebab-case"]
+          }
+        },
+        "useForOf": "error",
+        "useFragmentSyntax": "error",
+        "useImportType": "error",
+        "useLiteralEnumMembers": "error",
+        "useNamingConvention": "error",
+        "useNodejsImportProtocol": "error",
+        "useSelfClosingElements": "error",
+        "useShorthandAssign": "error",
+        "useShorthandFunctionType": "error",
+        "useTemplate": "error",
+        "useThrowOnlyError": "error"
+      },
+      "suspicious": {
+        "noApproximativeNumericConstant": "error",
+        "noAssignInExpressions": "error",
+        "noAsyncPromiseExecutor": "error",
+        "noCatchAssign": "error",
+        "noClassAssign": "error",
+        "noCompareNegZero": "error",
+        "noConfusingVoidType": "error",
+        "noConsole": "off",
+        "noControlCharactersInRegex": "error",
+        "noDebugger": "error",
+        "noDoubleEquals": "error",
+        "noDuplicateClassMembers": "error",
+        "noDuplicateObjectKeys": "error",
+        "noDuplicateParameters": "error",
+        "noEmptyInterface": "error",
+        "noExplicitAny": "warn",
+        "noExtraNonNullAssertion": "error",
+        "noFallthroughSwitchClause": "error",
+        "noFunctionAssign": "error",
+        "noGlobalAssign": "error",
+        "noImportAssign": "error",
+        "noIrregularWhitespace": "error",
+        "noLabelVar": "error",
+        "noMisleadingCharacterClass": "error",
+        "noMisleadingInstantiator": "error",
+        "noOctalEscape": "error",
+        "noPrototypeBuiltins": "error",
+        "noRedeclare": "error",
+        "noSelfCompare": "error",
+        "noShadowRestrictedNames": "error",
+        "noSparseArray": "error",
+        "noVar": "error",
+        "noWith": "error",
+        "useGetterReturn": "error",
+        "useNamespaceKeyword": "error"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "semicolons": "always"
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "files": {
+    "includes": ["src/**/*.ts"]
+  }
+}

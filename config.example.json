@@ -1,0 +1,19 @@
+{
+  "volumes": [
+    {
+      "name": "default-downloads",
+      "path": "<path-to-directory-for-the-virtual-volume>",
+      "maxSizeGB": 100,
+      "tags": ["media", "other-tags.."]
+    }
+  ],
+  "server": {
+    "port": 6060,
+    "host": "0.0.0.0"
+  },
+  "providers": {
+    "torrent": {
+      "downloadTorrentFilesPath": "<path-to-a-folder-to-download-dot-torrent-files>"
+    }
+  }
+}
